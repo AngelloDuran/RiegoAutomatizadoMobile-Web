@@ -1,0 +1,23 @@
+import "./Products.css";
+import ProductCard from "../../components/ProductCard/ProductCard";
+import { products } from "./products.mock";
+
+export default function Products() {
+  return (
+    <section className="products-page fade-up">
+      <h2>Nuestros Productos</h2>
+
+      <div className="products-grid">
+        {products.map((product) => (
+          <ProductCard
+            key={product.id}
+            name={product.name}
+            price={product.price}
+            image={product.image}
+            description={product.description}
+          />
+        ))}
+      </div>
+    </section>
+  );
+}
