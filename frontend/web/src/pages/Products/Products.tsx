@@ -1,23 +1,49 @@
-import "./Products.css";
+import { useEffect, useState } from "react";
+import { getProducts } from "../../api/products";
 import ProductCard from "../../components/ProductCard/ProductCard";
-import { products } from "./products.mock";
+import "./Products.css";
+
+interface Product {
+  id: number;
+  nombre: string;
+  descripcion: string;
+  precio: number;
+  imagen_url: string;
+}
 
 export default function Products() {
-  return (
-    <section className="products-page fade-up">
-      <h2>Nuestros Productos</h2>
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
 
-      <div className="products-grid">
-        {products.map((product) => (
-          <ProductCard
-            key={product.id}
-            name={product.name}
-            price={product.price}
-            image={product.image}
-            description={product.description}
-          />
-        ))}
-      </div>
-    </section>
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const data = await getProducts();
+        setProducts(data);
+      } catch (error) {
+        console.error("Error cargando productos", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+  if (loading) return <p style={{ textAlign: "center" }}>Cargando productos...</p>;
+
+  return (
+    <div className="products-container">
+      {products.map((product) => (
+        <ProductCard
+          key={product.id}
+          id = {product.id}
+          name={product.nombre}
+          description={product.descripcion}
+          price={product.precio}
+          image={product.imagen_url}
+        />
+      ))}
+    </div>
   );
 }

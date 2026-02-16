@@ -1,17 +1,43 @@
-import "./Navbar.css";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
+import "./Navbar.css";
 
 export default function Navbar() {
+  const { token, rol, logout } = useAuth();
+
   return (
     <nav className="navbar">
-      <h1 className="logo">Huerto</h1>
+      <h2 className="logo">🌱 HuertoSmart</h2>
 
-      <ul className="nav-links">
-        <li><Link to="/">Inicio</Link></li>
-        <li><Link to="/about">Nosotros</Link></li>
-        <li><Link to="/products">Productos</Link></li>
-        <li><Link to="/cart">Carrito</Link></li>
-      </ul>
+      <div className="nav-links">
+        <Link to="/">Inicio</Link>
+        <Link to="/products">Productos</Link>
+        <Link to="/about">Nosotros</Link>
+        <Link to="/cart">Carrito</Link>
+
+        {!token && (
+          <>
+            <Link to="/login" className="btn-login">
+              Iniciar sesión
+            </Link>
+            <Link to="/register" className="btn-register">
+              Registrarse
+            </Link>
+          </>
+        )}
+
+        {rol === "admin" && (
+          <Link to="/admin" className="btn-admin">
+            Admin
+          </Link>
+        )}
+
+        {token && (
+          <button onClick={logout} className="btn-logout">
+            Cerrar sesión
+          </button>
+        )}
+      </div>
     </nav>
   );
 }
