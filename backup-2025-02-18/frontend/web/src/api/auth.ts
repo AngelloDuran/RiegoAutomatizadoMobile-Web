@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API = "https://riego-automatizado-mobile-web.vercel.app/api/auth";
+const API = "http://localhost:5000/api/auth";
 
 export const login = (data: any) =>
   axios.post(`${API}/login`, data);

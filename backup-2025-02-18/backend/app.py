@@ -3,9 +3,9 @@ from flask_jwt_extended import JWTManager
 from flask_cors import CORS
 from routes.auth_routes import auth
 from routes.product_routes import product_bp
-import config
-from database import get_db_connection
+import config 
 from config import GOOGLE_MAPS_API_KEY
+from database import get_db_connection
 
 #  Verificar conexión a DB
 try:

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API = "https://riego-automatizado-mobile-web.vercel.app/api/products";
+const API = "http://localhost:5000/api/products";
 
 export const getProducts = async () => {
   const response = await axios.get(`${API}`);

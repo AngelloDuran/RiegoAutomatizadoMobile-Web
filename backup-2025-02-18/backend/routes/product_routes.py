@@ -8,8 +8,6 @@ product_bp = Blueprint("products", __name__)
 # 🔹 Obtener todos los productos
 @product_bp.route("", methods=["GET"])
 def get_products():
-    conn = None
-    cursor = None
     try:
         conn = get_db_connection()
         cursor = conn.cursor(dictionary=True)
@@ -17,18 +15,14 @@ def get_products():
         cursor.execute("SELECT * FROM products")
         products = cursor.fetchall()
 
+        cursor.close()
+        conn.close()
+
         return jsonify(products), 200
 
     except Exception as e:
         print(" ERROR GET PRODUCTS:", e)
         return jsonify({"error": "Error obteniendo productos"}), 500
-
-    finally:
-        # Esto se ejecuta SIEMPRE, haya error o no, garantizando que se cierre la conexión
-        if cursor:
-            cursor.close()
-        if conn and conn.is_connected():
-            conn.close()
 
 
 # 🔹 Crear producto (solo admin)
